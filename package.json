@@ -1,0 +1,23 @@
+{
+  "name": "scalabilityCourse",
+  "version": "0.0.0",
+  "description": "Getting a dip into how to scale an app",
+  "author": "",
+  "dependencies": {
+    "async": "^1.5.2",
+    "body-parser": "^1.15.0",
+    "cron": "~1.0.9",
+    "ejs": "latest",
+    "express": "latest",
+    "faker": "latest",
+    "gzippo": "^0.2.0",
+    "jimp": "^0.2.21",
+    "loadtest": "^1.3.0",
+    "mysql": "latest",
+    "node-fetch": "^1.3.3",
+    "randy": "latest",
+    "request": "^2.69.0",
+    "total-recall": "^0.1.0",
+    "underscore": "latest"
+  }
+}
