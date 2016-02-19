@@ -3,6 +3,7 @@ var _ = require('underscore')
 var express = require('express');
 var async = require('async');
 var apps = [express(), express(), express()];
+var servers = [];
 var bodyParser = require('body-parser');
 var randy = require('randy');
 var faker = require('faker');
@@ -22,36 +23,17 @@ var dbpool = mysql.createPool({
 });
 var balancer = express();
 balancer.use('/', function(req, res){
-  var url = "http://localhost:3000" + req.url;
-  res.writeHead(200, { 'content-encoding': 'gzip' });
-  // req.pipe(fs.createReadStream(request(url))).pipe(res)
-  // var proxy = http.createClient(80, request.headers['host'])
-  // var proxy_request = proxy.request(request.method, request.url, request.headers);
-  // proxy_request.addListener('response', function (proxy_response) {
-  //   proxy_response.addListener('data', function(chunk) {
-  //     response.write(chunk, 'binary');
-  //   });
-  //   proxy_response.addListener('end', function() {
-  //     response.end();
-  //   });
-  //   response.writeHead(proxy_response.statusCode, proxy_response.headers);
-  // });
-  // request.addListener('data', function(chunk) {
-  //   proxy_request.write(chunk, 'binary');
-  // });
-  // request.addListener('end', function() {
-  //   proxy_request.end();
-  // });
-  // // res.redirect('http://localhost:3001/');
-  // request('http://localhost:3000/', function(error, response, body){
-  //   // console.log(response)
-  //   // res.pipe(body)
-  // })
+  var url = "http://localhost:300" + (count % 3) + req.url;
+  request(url, function(error, response, body){
+    res.send(response)
+  });
+  // req.pipe(request(url)).pipe(res);
 })
+
 balancer.listen(8000, '0.0.0.0', function(req, res){
   console.log("balancer listening on 8000")
 })
-_.each(apps, function(element, index){
+_.each(apps, (element, index) => {
   element.set('view engine', 'ejs');
   element.use(bodyParser.urlencoded({extended:true}))
   element.use(bodyParser.json());
@@ -103,26 +85,26 @@ _.each(apps, function(element, index){
           }
         })
       },
-      // topBusinessInCountry: function(callback){
-      //   var getCountryQuery = 'SELECT country FROM addresses GROUP BY country';
-      //   var topBusinessInCountry = [];
-      //   dbpool.getConnection(function(err, connection){
-      //     if(err) return console.log(err);
-      //     connection.query(getCountryQuery, function(err, results){
-      //       if(err){
-      //         console.log(err)
-      //         connection.release();
-      //       } else {
-      //         // console.log(results)
-      //         connection.release();
-      //         var topCountryBusiness = [];
-      //         getTopBusinness (0, topCountryBusiness, results, function(array){
-      //           callback(null, array)
-      //         })
-      //       }
-      //     })
-      //   })
-      // },
+    //   topBusinessInCountry: function(callback){
+    //     var getCountryQuery = 'SELECT country FROM addresses GROUP BY country';
+    //     var topBusinessInCountry = [];
+    //     dbpool.getConnection(function(err, connection){
+    //       if(err) return console.log(err);
+    //       connection.query(getCountryQuery, function(err, results){
+    //         if(err){
+    //           console.log(err)
+    //           connection.release();
+    //         } else {
+    //           // console.log(results)
+    //           connection.release();
+    //           var topCountryBusiness = [];
+    //           getTopBusinness (0, topCountryBusiness, results, function(array){
+    //             callback(null, array)
+    //           })
+    //         }
+    //       })
+    //     })
+    //   },
     },
     function(err, results) {
       // res.set('X-Response-Time', '300')
@@ -136,6 +118,7 @@ _.each(apps, function(element, index){
   element.listen((3000+index), function(req, res){
     console.log("listening on " + (3000 + index))
   })
+  servers.push(element);
 })
 
 
