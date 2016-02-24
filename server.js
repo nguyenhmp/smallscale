@@ -21,13 +21,14 @@ var dbpool = mysql.createPool({
   "password": "root",
   "port": 3306
 });
-var balancer = express();
+var balancer = express(); 
 balancer.use('/', function(req, res){
   var url = "http://localhost:300" + (count % 3) + req.url;
-  request(url, function(error, response, body){
-    res.send(response)
-  });
-  // req.pipe(request(url)).pipe(res);
+  // request(url, function(error, response, body){
+  //   res.send(response)
+  // });
+  req.pipe(request(url)).pipe(res);
+  count++;
 })
 
 balancer.listen(8000, '0.0.0.0', function(req, res){
@@ -118,7 +119,7 @@ _.each(apps, (element, index) => {
   element.listen((3000+index), function(req, res){
     console.log("listening on " + (3000 + index))
   })
-  servers.push(element);
+  // servers.push(element);
 })
 
 
