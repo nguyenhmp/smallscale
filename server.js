@@ -24,11 +24,7 @@ var dbpool = mysql.createPool({
 var balancer = express(); 
 balancer.use('/', function(req, res){
   var url = "http://localhost:300" + (count % 3) + req.url;
-  // request(url, function(error, response, body){
-  //   res.send(response)
-  // });
   req.pipe(request(url)).pipe(res);
-  count++;
 })
 
 balancer.listen(8000, '0.0.0.0', function(req, res){
