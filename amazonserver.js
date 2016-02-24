@@ -50,7 +50,7 @@ _.each(apps, (element, index) => {
   element.get('/', function(req, res, next){
     async.parallel({
       select: function(callback){
-        var selectQuery = 'SELECT * FROM businesses LIMIT 100';
+        var selectQuery = 'SELECT * FROM businesses LIMIT 10';
         dbpool.getConnection(function(err, connection){
           if(err){
             console.log(err)
