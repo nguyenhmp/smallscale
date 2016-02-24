@@ -68,7 +68,7 @@ var generateAddresses = new Promise(function(resolve, reject){
     `area_code,` +
     `first_three_number,` +
     `last_four_number,` +
-    `business_id`
+    `business_id` +
     ') VALUES ';
 
   var count = 10000;
@@ -95,7 +95,7 @@ var generateAddresses = new Promise(function(resolve, reject){
       area_code + ',' +
       first_three_number + ',' +
       last_four_number + ',' +
-      business_id + 
+      address_id + 
     ')';
     // Comma, except for last.
     if (n != count-1) sqlQuery += ',\n';
@@ -115,7 +115,7 @@ var generateBusinessInfos = new Promise(function(resolve, reject){
     `annual_profit,` +
     `number_of_like,` +
     `number_of_dislike,` +
-    `business_id`
+    `business_id` +
     ') VALUES ';
 
 

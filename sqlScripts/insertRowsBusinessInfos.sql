@@ -1,4 +1,4 @@
-INSERT INTO addresses (number_of_employee,department,slogan,annual_business_cost,annual_revenue,annual_profit,number_of_like,number_of_dislike,business_id(8875,"Jewelery","Front-line holistic task-force",30610,87598,-56988,898000,914986,10000),
+INSERT INTO business_infos (number_of_employee,department,slogan,annual_business_cost,annual_revenue,annual_profit,number_of_like,number_of_dislike,business_id) VALUES(8875,"Jewelery","Front-line holistic task-force",30610,87598,-56988,898000,914986,10000),
 (46047,"Grocery","Reverse-engineered empowering policy",21552,92686,-71134,468045,315549,10000),
 (54736,"Movies","Intuitive 24 hour archive",29408,97426,-68018,325364,138805,10000),
 (1633,"Kids","Centralized multimedia circuit",27620,16073,11547,531046,711735,10000),
