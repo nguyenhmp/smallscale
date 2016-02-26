@@ -2,8 +2,7 @@ var mysql = require('mysql');
 var _ = require('underscore')
 var express = require('express');
 var async = require('async');
-var apps = [express(), express(), express()];
-var servers = [];
+var server = express()
 var bodyParser = require('body-parser');
 var randy = require('randy');
 var faker = require('faker');
@@ -15,113 +14,105 @@ var request = require('request');
 var count = 0;
 var dbpool = mysql.createPool({
   "connectionLimit": 100, 
-  "host": "scapeappdb.czk3w9kdv9on.us-west-2.rds.amazonaws.com",
-  "database": "scaledb2",
+  "host": "localhost",
+  "database": "scale2",
   "user": "root",
-  "password": "rootroot",
+  "password": "root",
   "port": 3306
 });
-var balancer = express(); 
-balancer.use('/', function(req, res){
-  var url = "http://localhost:3000" + req.url;
-  req.pipe(request(url)).pipe(res);
-})
 
-balancer.listen(8000, '0.0.0.0', function(req, res){
-  console.log("balancer listening on 8000")
-})
-_.each(apps, (element, index) => {
-  element.set('view engine', 'ejs');
-  element.use(bodyParser.urlencoded({extended:true}))
-  element.use(bodyParser.json());
-  element.use(express.static(__dirname + '/public'))
-  // element.use(gzippo.staticGzip(__dirname + '/public'));
-  // element.use(gzippo.compress());
-  element.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+server.set('view engine', 'ejs');
+server.use(bodyParser.urlencoded({extended:true}))
+server.use(bodyParser.json());
+// server.use(express.static(__dirname + '/public'))
+server.use(gzippo.staticGzip(__dirname + '/public'));
+server.use(gzippo.compress());
+server.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
-  element.get('/images/3.pngl', function(req, res, next){
-    console.log('here')
-  })
-
-  element.get('/', function(req, res, next){
-    async.parallel({
-      select: function(callback){
-        var selectQuery = 'SELECT * FROM businesses LIMIT 10';
-        dbpool.getConnection(function(err, connection){
-          if(err){
-            console.log(err)
-          } else {
-            connection.query(selectQuery, function(err, results){
-              if(err){
-                console.log(err)
-                connection.release();
-              } else {
-                for(var i = 0; i < results.length; i++) {
-                  for(var j = 0; j < results.length; j++) {
-                    for(var k = 0; k < results.length; k++) {
-                      if ( results[j].business_name < results[k].business_name ) {
-                        var temp = results[k];
-                        results[k] = results[j];
-                        results[j] = temp;
-                      }
-                      if ( results[i].business_name < results[k].business_name ) {
-                        var temp = results[k];
-                        results[k] = results[i];
-                        results[i] = temp;
-                      }
+server.get('/', function(req, res, next){
+  var startTime = new Date();
+  startTime = startTime.getTime();
+  async.parallel({
+    select: function(callback){
+      var selectQuery = 'SELECT * FROM businesses LIMIT 100';
+      dbpool.getConnection(function(err, connection){
+        if(err){
+          console.log(err)
+        } else {
+          connection.query(selectQuery, function(err, results){
+            if(err){
+              console.log(err)
+              connection.release();
+            } else {
+              for(var i = 0; i < results.length; i++) {
+                for(var j = 0; j < results.length; j++) {
+                  for(var k = 0; k < results.length; k++) {
+                    if ( results[j].business_name < results[k].business_name ) {
+                      var temp = results[k];
+                      results[k] = results[j];
+                      results[j] = temp;
+                    }
+                    if ( results[i].business_name < results[k].business_name ) {
+                      var temp = results[k];
+                      results[k] = results[i];
+                      results[i] = temp;
                     }
                   }
                 }
-                callback(null, results)
               }
+              callback(null, results)
+            }
+          })
+        }
+      })
+    },
+    topBusinessInCountry: function(callback){
+      var getCountryQuery = 'SELECT country FROM addresses GROUP BY country';
+      var topBusinessInCountry = [];
+      dbpool.getConnection(function(err, connection){
+        if(err) return console.log(err);
+        connection.query(getCountryQuery, function(err, results){
+          if(err){
+            console.log(err)
+            connection.release();
+          } else {
+            // console.log(results)
+            connection.release();
+            var topCountryBusiness = [];
+            getTopBusiness (0, topCountryBusiness, results, function(array){
+              callback(null, array)
             })
           }
         })
-      },
-    //   topBusinessInCountry: function(callback){
-    //     var getCountryQuery = 'SELECT country FROM addresses GROUP BY country';
-    //     var topBusinessInCountry = [];
-    //     dbpool.getConnection(function(err, connection){
-    //       if(err) return console.log(err);
-    //       connection.query(getCountryQuery, function(err, results){
-    //         if(err){
-    //           console.log(err)
-    //           connection.release();
-    //         } else {
-    //           // console.log(results)
-    //           connection.release();
-    //           var topCountryBusiness = [];
-    //           getTopBusinness (0, topCountryBusiness, results, function(array){
-    //             callback(null, array)
-    //           })
-    //         }
-    //       })
-    //     })
-    //   },
+      })
     },
-    function(err, results) {
-      // res.set('X-Response-Time', '300')
+  },
+  function(err, results) {
+    // res.set('X-Response-Time', '300')
+    var endTime = new Date();
+    var timeResults = endTime - startTime
+    console.log("time take to do reqeuest,", timeResults)
+    res.status(200).render('index', results)
+    // server.render('index', results, function(err, html){
+    //   res.send(html)        
+    // });
+  });
+})
 
-      // res.status(200).render('index', results)
-      element.render('index', results, function(err, html){
-        res.send(html)        
-      });
-    });
-  })
-  element.listen((3000+index), function(req, res){
-    console.log("listening on " + (3000 + index))
-  })
-  // servers.push(element);
+server.listen((3000), function(req, res){
+  console.log("listening on " + (3000))
 })
 
 
-function getTopBusinness (count, array, countries, callback){
+function getTopBusiness (count, array, countries, callback){
+  console.log(count)
   if (count == 1){
     callback(array)
+    return;
   }
   var getTopBusinnessInCountry = "SELECT bi.annual_profit, a.country, b.business_name " +
                                  "FROM businesses AS b " + 
@@ -130,7 +121,6 @@ function getTopBusinness (count, array, countries, callback){
                                  "WHERE a.country = '" + countries[count]["country"] + "' " +
                                  "ORDER BY annual_profit desc " +
                                  "LIMIT 1";
-  console.log(getTopBusinnessInCountry)
   dbpool.getConnection(function(err, connection){
     if(err) return console.log(err);
     connection.query(getTopBusinnessInCountry, function(err, results){
@@ -140,8 +130,9 @@ function getTopBusinness (count, array, countries, callback){
       } else {
         console.log(results[0]);
         array.push(results[0]);
-        count++
-        getTopBusinness(count, array, countries, callback)
+        count++;
+        connection.release();
+        getTopBusiness(count, array, countries, callback)
       }
     })
   })

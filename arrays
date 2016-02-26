@@ -1,0 +1,59 @@
+String[] array = new String[10];
+
+array[0] = "minh";
+array[1] = "nguyen";
+array[0] = "steven";
+
+var temp = array[0]
+array[0] = "steven";
+
+Int[] arrayInt = new Int[];
+
+Int[] arrayInt2 = new Int[0,1,2,3,4,5,6]
+
+Int counter = 0;
+while(counter > arrayInt2.length){
+	if(arrayInt2[counter] == 0){
+
+	}
+	counter++;
+}
+var nucleotides = "agctcctaasdfewqerasdfasdfqwersadf"; //30
+
+2, 5, 8, 11,
+
+
+Int[] nucCounter = new Int[0,0,0,0];
+String[] codonList = new Int[nucleotides.length / 3]
+
+
+
+for (var i = 0; i < string.length; i ++){
+	// checking for necleo tides
+	if charAt(i) == a {
+		nucCounter[0]++
+	} else if{
+
+ 	} else if{
+
+	} else if{
+
+	}
+
+}
+
+[0, 1, 2, 3,                                  ]
+agctcctaasdfewqerasdfasdfqwersadf
+codonList[counter]
+
+	String temp="";
+	int counter = 0;
+for (int i = 0; i <= nucleotides.length; i++) {
+	temp += nucleotides[i];
+	if (i % 3 == 2) {
+		condonList[counter] = temp;
+		counter++;
+		temp = "";
+	}
+}
+System.out.print(temp);
