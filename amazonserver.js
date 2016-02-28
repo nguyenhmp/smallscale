@@ -110,9 +110,7 @@ server.listen((3000), function(req, res){
 
 
 function getTopBusiness (count, array, countries, callback){
-  // console.log(countries)
-  console.log(count)
-  if (count == countries.count-1){
+  if (count == countries.length-1){
     callback(array)
     return;
   }
@@ -131,7 +129,6 @@ function getTopBusiness (count, array, countries, callback){
         console.log(err)
         connection.release();
       } else {
-        console.log(results[0]);
         array.push(results[0]);
         count++;
         connection.release();
