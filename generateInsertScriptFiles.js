@@ -106,7 +106,7 @@ var generateAddresses = new Promise(function(resolve, reject){
 })
 
 var generateBusinessInfos = new Promise(function(resolve, reject){
-  var sqlQuery = 'INSERT INTO addresses (' +
+  var sqlQuery = 'INSERT INTO business_infos (' +
     `number_of_employee,` +
     `department,` +
     `slogan,` +
@@ -143,7 +143,7 @@ var generateBusinessInfos = new Promise(function(resolve, reject){
       annual_profit + ',' +
       number_of_like + ',' +
       number_of_dislike + ',' +
-      address_id +
+      business_id +
     ')';
     // Comma, except for last.
     if (n != count-1) sqlQuery += ',\n';
