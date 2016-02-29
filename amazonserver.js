@@ -119,8 +119,7 @@ function getTopBusiness (count, array, countries, callback){
                                  "JOIN addresses AS a ON b.id = a.business_id " +
                                  "WHERE a.country = " + dbpool.escape(countries[count]["country"]) +
                                  "ORDER BY annual_profit desc " +
-                                 "LIMIT 1";
-  console.log(getTopBusinessInCountry)                                
+                                 "LIMIT 1";                                
   dbpool.getConnection(function(err, connection){
     if(err) return console.log(err);
     connection.query(getTopBusinessInCountry, function(err, results){
