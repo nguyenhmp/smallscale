@@ -3,12 +3,12 @@ var proxy = httpProxy.createServer();
 var http = require('http')
 var addresses = [
   {
-    host: 'localhost',
+    host: 'http://ec2-52-37-120-158.us-west-2.compute.amazonaws.com/',
     port: 3000
   },
   {
-    host: 'localhost',
-    port: 3001
+    host: 'http://ec2-52-37-3-211.us-west-2.compute.amazonaws.com/',
+    port: 3000
   }
 ];
 

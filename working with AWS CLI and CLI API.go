@@ -20,28 +20,36 @@ Open a new Command Prompt window and verify your JAVA_HOME setting using this co
 
 Create a new instance with:
 	ec2-run-instances --key <Your key pair name> <what operating system you want> 	-t <the system type> -g <security-group-name>
+	//scaleserver1
 	ec2-run-instances --key 	scaleapp1 				ami-9abea4fb 				-t 		t2.micro
 
 To SSH into your instance:
 	ssh -i 					<Directory of your PEM key> 				ubuntu@<insert Public IP address>
 	ssh -i      					scaleapp1.pem         				ubuntu@     52.36.153.23
 	ssh -i "C:\Users\minh_\Desktop\Scalability\resources\scaleapp1.pem" ubuntu@		52.36.153.23
+	//balancer
+	ssh -i "C:\Users\minh_\Desktop\Scalability\resources\scaleapp1.pem" ubuntu@		52.36.250.179
 
-Upating your instance(UBUNTU OS):
-	sudo apt-get update && sudo apt-get upgrade -y
+Upating your instance(UBUNTU OS(linux)):
+	sudo apt-get update && sudo apt-get upgrade -y 
+
 	sudo apt-get install build-essential
 	sudo apt-get install libssl-dev
 	sudo apt-get install python-software-properties
-	sudo apt-get git -y //gets git
+	//gets git
+	sudo apt-get git -y 
 	sudo apt-get update
 
 Getting node:
 	//downloads linux version of node
-	curl -O https://nodejs.org/dist/v4.3.1/node-v<Node version>-linux-x64.tar.xz
+	curl -O 'https://nodejs.org/dist/v4.3.1/node-v<Node version>-linux-x64.tar.xz'
+	curl -O 'https://nodejs.org/dist/v4.3.1/node-v4.3.1-linux-x64.tar.xz'
 	//unzips
 	tar -xf node-v<Node version>-linux-x64.tar.xz
+	tar -xf node-v4.3.1-linux-x64.tar.xz
 	//put in your path
 	echo "export PATH=<directory to bin>:$PATH" >> ~/.bashrc
+	echo "export PATH=/home/ubuntu/node-v4.3.1-linux-x64/bin:$PATH" >> ~/.bashrc
 	//reload bash
 	source ~/.bashrc
 	//check if node works
@@ -51,5 +59,14 @@ Installing MySQL:
 	sudo apt-get install -y xfsprogs mysql-server
 
 Running Node forever:
-	$ nohup node amazonserver.js &
-	$ exit
+	//create screen
+	$ screen
+	//run node with server
+	$ node amazonserver.js
+	//Exit screen
+	$ (ctrl + 'a') + 'd'
+	//exit server
+	$ exit 
+
+Pulling github
+	$ git clone https://github.com/nguyenhmp/smallscale

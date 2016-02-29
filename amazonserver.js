@@ -22,10 +22,9 @@ var dbpool = mysql.createPool({
   "port": 3306
 });
 
-server.set('view engine', 'ejs');
-server.use(bodyParser.urlencoded({extended:true}))
+jserver.use(bodyParser.urlencoded({extended:true}))
 server.use(bodyParser.json());
-// server.use(express.static(__dirname + '/public'))
+server.use(express.static(__dirname + '/public'))
 server.use(gzippo.staticGzip(__dirname + '/public'));
 server.use(gzippo.compress());
 server.use(function(req, res, next) {
