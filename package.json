@@ -5,6 +5,7 @@
   "author": "",
   "dependencies": {
     "async": "^1.5.2",
+    "aws-sdk": "^2.2.39",
     "body-parser": "^1.15.0",
     "cron": "~1.0.9",
     "ejs": "latest",

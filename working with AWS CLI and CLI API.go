@@ -10,6 +10,9 @@ For example, the following commands list the contents of the .aws folder:
 	Windows - "> dir %UserProfile%\.aws"
 
 Describe your instance:
+	i-4e462789 //balancer
+	i-76118eb1 //server1
+	i-df8e2607 //server2
 	ec2-describe-instances i-IIII1111
 
 Describe your volume:
@@ -27,6 +30,8 @@ To SSH into your instance:
 	ssh -i 					<Directory of your PEM key> 				ubuntu@<insert Public IP address>
 	ssh -i      					scaleapp1.pem         				ubuntu@     52.36.153.23
 	ssh -i "C:\Users\minh_\Desktop\Scalability\resources\scaleapp1.pem" ubuntu@		52.36.153.23
+	//test
+	ssh -i "C:\Users\minh_\Desktop\Scalability\resources\scaleapp1.pem" ubuntu@		52.36.225.75 
 	//balancer
 	ssh -i "C:\Users\minh_\Desktop\Scalability\resources\scaleapp1.pem" ubuntu@		52.36.250.179
 
