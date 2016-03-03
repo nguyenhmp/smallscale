@@ -7,7 +7,7 @@
 
 For example, the following commands list the contents of the .aws folder:
 	Linux, OS X, or Unix - "$ ls  ~/.aws"
-	Windows - "> dir %UserProfile%\.aws"
+	Windows - "> dir %UserProfile%/.aws"
 
 Describe your instance:
 	i-4e462789 //balancer
@@ -29,21 +29,26 @@ Create a new instance with:
 To SSH into your instance:
 	ssh -i 					<Directory of your PEM key> 				ubuntu@<insert Public IP address>
 	ssh -i      					scaleapp1.pem         				ubuntu@     52.36.153.23
-	ssh -i "C:\Users\minh_\Desktop\Scalability\resources\scaleapp1.pem" ubuntu@		52.36.153.23
-	//test
-	ssh -i "C:\Users\minh_\Desktop\Scalability\resources\scaleapp1.pem" ubuntu@		52.36.225.75 
+	ssh -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.36.153.23
+	//scaleServer1
+	ssh -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.37.3.211
+	//scaleServer2
+	ssh -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.37.120.158
 	//balancer
-	ssh -i "C:\Users\minh_\Desktop\Scalability\resources\scaleapp1.pem" ubuntu@		52.36.250.179
+	ssh -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.36.250.179
+	//test
+	ssh -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.36.225.75 
+	//SSH without yes confirmation
+	ssh -o StrictHostKeyChecking=no
 
 Upating your instance(UBUNTU OS(linux)):
 	sudo apt-get update && sudo apt-get upgrade -y 
-
 	sudo apt-get install build-essential
 	sudo apt-get install libssl-dev
 	sudo apt-get install python-software-properties
-	//gets git
 	sudo apt-get git -y 
-	sudo apt-get update
+	sudo apt-get update -y
+	sudo apt-get update && sudo apt-get upgrade -y 
 
 Getting node:
 	//downloads linux version of node
@@ -75,3 +80,10 @@ Running Node forever:
 
 Pulling github
 	$ git clone https://github.com/nguyenhmp/smallscale
+
+FTP:
+	scp -o StrictHostKeyChecking=no -i "/home/ubuntu/smallscale/resources/sc
+	aleapp1.pem" "/home/ubuntu/smallscale/resources/scaleapp1.pem" ubuntu@ec2-52-36-225-75.us-west-2.compute.amazonaws.com:
+	/home/ubuntu
+
+

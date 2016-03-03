@@ -22,7 +22,7 @@ var dbpool = mysql.createPool({
   "port": 3306
 });
 
-jserver.use(bodyParser.urlencoded({extended:true}))
+server.use(bodyParser.urlencoded({extended:true}))
 server.use(bodyParser.json());
 server.use(express.static(__dirname + '/public'))
 server.use(gzippo.staticGzip(__dirname + '/public'));
