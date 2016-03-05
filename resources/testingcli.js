@@ -78,7 +78,7 @@ var scp = childProcess('scp',
       '-i',
       '/home/ubuntu/scaleapp1.pem',
       '/home/ubuntu/smallscale/resources/shellScripts',
-      'ubuntu@ec2-52-36-238-114.us-west-2.compute.amazonaws.com:/home/ubuntu']
+      'ubuntu@ec2-52-24-109-81.us-west-2.compute.amazonaws.com:/home/ubuntu']
   )
 scp.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
