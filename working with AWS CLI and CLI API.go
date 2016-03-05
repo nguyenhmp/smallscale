@@ -84,5 +84,7 @@ Pulling github
 
 FTP:
 	scp -o StrictHostKeyChecking=no -i "/home/ubuntu/smallscale/resources/scaleapp1.pem" "/home/ubuntu/smallscale/resources/setUpScript.sh" ubuntu@ec2-52-36-225-75.us-west-2.compute.amazonaws.com:/home/ubuntu
+	//PC home
+	scp -o StrictHostKeyChecking=no -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" 'ubuntu@ec2-52-36-250-179.us-west-2.compute.amazonaws.com':/home/ubuntu
 
 screen -dm bash ./runNode.sh                                                

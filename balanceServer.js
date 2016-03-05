@@ -38,7 +38,7 @@ ec2.runInstances(params, function(err, data) {
 	    console.log("InstanceStatus:", data.InstanceStatuses[0].InstanceStatus);
 	    var params = {
 			  InstanceIds: [
-			    data.InstanceStatuses[0].InstanceId,
+			    data.InstanceStatuses[0].InstanceIdgit,
 			  ],
 			};
 			ec2.describeInstances(params, function(err, data) {
