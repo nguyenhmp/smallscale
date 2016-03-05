@@ -5,7 +5,7 @@ var scp = childProcess('scp',
       '-i',
       '/home/ubuntu/scaleapp1.pem',
       '/home/ubuntu/smallscale/resources/shellScripts',
-      'ubuntu@ec2-52-37-129-112.us-west-2.compute.amazonaws.com:/home/ubuntu']
+      'ubuntu@ec2-52-37-3-118.us-west-2.compute.amazonaws.com:/home/ubuntu']
   )
 scp.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
@@ -22,7 +22,7 @@ scp.on('close', (code) => {
       '-o StrictHostKeyChecking=no',
       '-i',
       '/home/ubuntu/scaleapp1.pem',
-      'ubuntu@52.37.129.112',
+      'ubuntu@52.37.3.118',
       'chmod -R +x ./shellScripts && ./shellScripts/setUpScript.sh'
     ])
 
