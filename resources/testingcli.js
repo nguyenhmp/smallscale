@@ -80,6 +80,17 @@ var scp = childProcess('scp',
       '/home/ubuntu/smallscale/resources/shellScripts',
       'ubuntu@ec2-52-36-238-114.us-west-2.compute.amazonaws.com:/home/ubuntu']
   )
+scp.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
+
+scp.stderr.on('data', (data) => {
+  console.log(`stderr: ${data}`);
+});
+
+scp.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
 // // spawn the slave using slaveId as the key
 // var ssh = childProcess('ssh', [
 //     '-i',
