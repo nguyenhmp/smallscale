@@ -1,5 +1,4 @@
 // var httpProxy = require('http-proxy');
-
 var AWS = require('aws-sdk');
 // var proxy = httpProxy.createServer();
 // var http = require('http')
@@ -22,7 +21,6 @@ var params = {
   SecurityGroups: ['launch-wizard-1'],
   KeyName: 'scaleapp1'
 };
-
 ec2.runInstances(params, function(err, data) {
   if (err) { console.log("Could not create instance", err); return; }
   params = {
@@ -49,7 +47,7 @@ ec2.runInstances(params, function(err, data) {
 	});
   // var instanceId = data.Instances[0].InstanceId;
   // console.log("Created instance", instanceId);
-  // console.log("data", data)
+  // console.log("data", data);
 });
 
 // http.createServer(function(req, res){
@@ -60,5 +58,10 @@ ec2.runInstances(params, function(err, data) {
 //   proxy.web(req, res, target);
 //   // ...and then the server you just used becomes the last item in the list.
 //   addresses.push(target.target);
-// }).listen(8000); 
 
+  //
+  // ..e server you just used becomes the last item in the list:
+  //addresses.push(target.target);
+//}).listen(8000, function(req, res){
+//console.log('listening on 8000');
+//}); 
