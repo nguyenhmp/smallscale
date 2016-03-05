@@ -94,7 +94,7 @@ var childProcess = require('child_process').spawn;
   var ssh = childProcess('ssh', [
       '-i',
       'C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem',
-      'ubuntu@52.36.238.114',
+      'ubuntu@52.37.1.141',
       'chmod +x ./shellScripts/runNode.sh'
     ])
 
