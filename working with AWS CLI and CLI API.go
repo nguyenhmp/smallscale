@@ -37,7 +37,7 @@ To SSH into your instance:
 	//balancer
 	ssh -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.36.250.179
 	//test1
-	ssh -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.36.235.210 
+	ssh -o StrictHostKeyChecking=no -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.36.235.210 
 	//SSH without yes confirmation
 	ssh -o StrictHostKeyChecking=no
 
@@ -83,7 +83,7 @@ Pulling github
 	$ git clone https://github.com/nguyenhmp/smallscale
 
 FTP:
-	scp -o StrictHostKeyChecking=no -i "/home/ubuntu/smallscale/resources/scaleapp1.pem" "/home/ubuntu/smallscale/resources/setUpScript.sh" ubuntu@ec2-52-36-225-75.us-west-2.compute.amazonaws.com:/home/ubuntu
+	scp -r -o StrictHostKeyChecking=no -i ./scaleapp1.pem -r "/home/ubuntu/smallscale/resources/shellScripts" ec2-52-36-235-210.us-west-2.compute.amazonaws.com:/home/ubuntu
 	//PC home
 	scp -o StrictHostKeyChecking=no -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" 'ubuntu@ec2-52-36-250-179.us-west-2.compute.amazonaws.com':/home/ubuntu
 
