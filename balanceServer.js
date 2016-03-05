@@ -25,9 +25,31 @@ var params = {
 
 ec2.runInstances(params, function(err, data) {
   if (err) { console.log("Could not create instance", err); return; }
-
-  var instanceId = data.Instances[0].InstanceId;
-  console.log("Created instance", instanceId);
+  params = {
+  	InstanceIds:[data.Instances[0].InstanceId]
+  }
+	 ec2.waitFor('instanceStatusOk', params, function(err, data) {
+	  if (err){
+	  	console.log(err, err.stack); // an error occurred
+	  } else {
+	    console.log("instance id:", data.InstanceStatuses[0].InstanceId);
+	    console.log("InstanceState:", data.InstanceStatuses[0].InstanceState);
+	    console.log("SystemStatus:", data.InstanceStatuses[0].SystemStatus);
+	    console.log("InstanceStatus:", data.InstanceStatuses[0].InstanceStatus);
+	    var params = {
+			  InstanceIds: [
+			    data.InstanceStatuses[0].InstanceId,
+			  ],
+			};
+			ec2.describeInstances(params, function(err, data) {
+			  if (err) console.log(err, err.stack); // an error occurred
+			  else     console.log(data.Reservations[0].Instances);           // successful response
+			});  
+	  }      // successful response
+	});
+  // var instanceId = data.Instances[0].InstanceId;
+  // console.log("Created instance", instanceId);
+  // console.log("data", data)
 });
 
 // http.createServer(function(req, res){

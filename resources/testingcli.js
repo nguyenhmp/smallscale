@@ -81,8 +81,8 @@ var ssh = childProcess('ssh', [
     'exit',
     'chmod',
     '755',
-    'C:/Users/minh_/Desktop/Scalability/resources/myFirstTestScript'
-])  
+    'C:/Users/minh_/Desktop/Scalability/resources/setUpScript'
+])
 
 ssh.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
