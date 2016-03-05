@@ -23,7 +23,7 @@ var childProcess = require('child_process').spawn;
       '-i',
       '/home/ubuntu/scaleapp1.pem',
       'ubuntu@52.37.1.141',
-      'chmod +x ./shellScripts/runNode.sh'
+      'chmod -r +x ./shellScripts/runNode.sh'
     ])
 
   ssh.stdout.on('data', (data) => {
