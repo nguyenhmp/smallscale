@@ -1,4 +1,4 @@
-// var httpProxy = require('http-proxy');
+var httpProxy = require('http-proxy');	
 var AWS = require('aws-sdk');
 // var proxy = httpProxy.createServer();
 // var http = require('http')
@@ -36,12 +36,15 @@ ec2.runInstances(params, function(err, data) {
 	    console.log("InstanceStatus:", data.InstanceStatuses[0].InstanceStatus);
 	    var params = {
 			  InstanceIds: [
-			    data.InstanceStatuses[0].InstanceIdgit,
+			    data.InstanceStatuses[0].InstanceId,
 			  ],
 			};
 			ec2.describeInstances(params, function(err, data) {
 			  if (err) console.log(err, err.stack); // an error occurred
-			  else     console.log(data.Reservations[0].Instances);           // successful response
+			  else     console.log(data.Reservations[0].Instances);
+			  var publicDNS = data.Reservations[0].Instances[0].PublicDnsName
+			  var publicIp = data.Reservations[0].Instances[0].PublicIpAddress
+			  
 			});  
 	  }      // successful response
 	});

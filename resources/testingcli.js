@@ -70,28 +70,32 @@
 
 // ssh.connect(connect);
 // child process
-var int = 755;
+// var int = 755;
 var childProcess = require('child_process').spawn;
+var scp = childProcess('scp', 
+    ['-r', 
+      '-o StrictHostKeyChecking=no',
+      '-i',
+      '/home/ubuntu/scaleapp1.pem',
+      '/home/ubuntu/smallscale/resources/shellScripts',
+      'ubuntu@ec2-52-36-238-114.us-west-2.compute.amazonaws.com:/home/ubuntu']
+  )
+// // spawn the slave using slaveId as the key
+// var ssh = childProcess('ssh', [
+//     '-i',
+//     'C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem',
+//     'ubuntu@52.36.238.114',
+//     'cd shellScripts && chmod +x ./runNode.sh'
+//   ])
 
-// spawn the slave using slaveId as the key
-var ssh = childProcess('ssh', [
-    '-i',
-    'C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem',
-    'ubuntu@52.36.250.179',
-    'exit',
-    'chmod',
-    '755',
-    'C:/Users/minh_/Desktop/Scalability/resources/setUpScript'
-])
+// ssh.stdout.on('data', (data) => {
+//   console.log(`stdout: ${data}`);
+// });
 
-ssh.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
+// ssh.stderr.on('data', (data) => {
+//   console.log(`stderr: ${data}`);
+// });
 
-ssh.stderr.on('data', (data) => {
-  console.log(`stderr: ${data}`);
-});
-
-ssh.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});
+// ssh.on('close', (code) => {
+//   console.log(`child process exited with code ${code}`);
+// });
