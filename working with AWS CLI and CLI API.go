@@ -36,10 +36,11 @@ To SSH into your instance:
 	ssh -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.37.120.158
 	//balancer
 	ssh -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.36.250.179
-	//test1
+	//test1 //script ran
 	ssh -o StrictHostKeyChecking=no -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.36.235.210 
-	//test2 
+	//test2 //script ran
 	ssh -o StrictHostKeyChecking=no -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.36.238.114 
+	ssh -o StrictHostKeyChecking=no -i "C:/Users/minh_/Desktop/Scalability/resources/scaleapp1.pem" ubuntu@		52.24.109.81
 	//SSH without yes confirmation
 	ssh -o StrictHostKeyChecking=no
 
