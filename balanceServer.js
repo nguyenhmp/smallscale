@@ -71,7 +71,7 @@ ec2.runInstances(params, function(err, data) {
 				      '-i',
 				      '/home/ubuntu/scaleapp1.pem',
 				      sshLocation,
-				      'chmod -R +x ./shellScripts exit'
+				      'chmod -R +x ./shellScripts && ./shellScripts/setUpScript.sh'
 				    ])
 
 				  sshChmod.stdout.on('data', (data) => {
@@ -89,7 +89,7 @@ ec2.runInstances(params, function(err, data) {
 				      '-i',
 				      '/home/ubuntu/scaleapp1.pem',
 				      sshLocation,
-				      './shellScripts/setUpScript.sh'
+				      './setUpNode'
 				    ])
 				    sshNodeInstall.stdout.on('data', (data) => {
 				      console.log(`stdout: ${data}`);
