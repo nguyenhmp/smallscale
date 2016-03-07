@@ -89,7 +89,7 @@ ec2.runInstances(params, function(err, data) {
 				      '-i',
 				      '/home/ubuntu/scaleapp1.pem',
 				      sshLocation,
-				      './setUpNode'
+				      './setUpNode.sh'
 				    ])
 				    sshNodeInstall.stdout.on('data', (data) => {
 				      console.log(`stdout: ${data}`);
@@ -101,6 +101,13 @@ ec2.runInstances(params, function(err, data) {
 
 				    sshNodeInstall.on('close', (code) => {
   					  console.log(`child process exited with code ${code}`);
+  					  var sshNodeInstall = childProcess('ssh', [
+					      '-o StrictHostKeyChecking=no',
+					      '-i',
+					      '/home/ubuntu/scaleapp1.pem',
+					      sshLocation,
+					      'screen -dm bash /home/ubuntu/shellScripts/screenNodeScript.sh'
+				    	])
 				    });
 				  });
 				})
