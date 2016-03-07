@@ -47,26 +47,31 @@ ec2.runInstances(params, function(err, data) {
 			  var publicIp = data.Reservations[0].Instances[0].PublicIpAddress
 			  var sshLocation = 'ubuntu@' + publicIp
 			  var transferLocation = publicDNS + ':/home/ubuntu';
-				var scp = childProcess('scp', 
-				    ['-r', 
-				      '-o StrictHostKeyChecking=no',
-				      '-i',
-				      '/home/ubuntu/scaleapp1.pem',
-				      '/home/ubuntu/smallscale/resources/shellScripts',
-				      transferLocation
-				    ])
-				scp.stdout.on('data', (data) => {
-				  console.log(`stdout: ${data}`);
-				});
+			  async.series({
+			    scp: function(callback){
+						var scp = childProcess('scp', 
+					    ['-r', 
+					      '-o StrictHostKeyChecking=no',
+					      '-i',
+					      '/home/ubuntu/scaleapp1.pem',
+					      '/home/ubuntu/smallscale/resources/shellScripts',
+					      transferLocation
+					    ])
+						scp.stdout.on('data', (data) => {
+						  console.log(`stdout: ${data}`);
+						});
 
-				scp.stderr.on('data', (data) => {
-				  console.log(`stderr: ${data}`);
-				});
+						scp.stderr.on('data', (data) => {
+						  console.log(`stderr: ${data}`);
+						});
 
-				scp.on('close', (code) => {
-				  console.log(`child process exited with code ${code}`);
-				  //spawn the slave using slaveId as the key
-				  var sshChmod = childProcess('ssh', [
+						scp.on('close', (code) => {
+						  console.log(`child process exited with code ${code}`);
+						  callback(null, "scp transfer complete")
+						})
+			    },
+			    sshChmod: function(callback){
+						var sshChmod = childProcess('ssh', [
 				      '-o StrictHostKeyChecking=no',
 				      '-i',
 				      '/home/ubuntu/scaleapp1.pem',
@@ -74,36 +79,45 @@ ec2.runInstances(params, function(err, data) {
 				      'chmod -R +x ./shellScripts && ./shellScripts/setUpScript.sh'
 				    ])
 
-				  sshChmod.stdout.on('data', (data) => {
-				    console.log(`stdout: ${data}`);
-				  });
+					  sshChmod.stdout.on('data', (data) => {
+					    console.log(`stdout: ${data}`);
+					  });
 
-				  sshChmod.stderr.on('data', (data) => {
-				    console.log(`stderr: ${data}`);
-				  });
+					  sshChmod.stderr.on('data', (data) => {
+					    console.log(`stderr: ${data}`);
+					  });
 
-				  sshChmod.on('close', (code) => {
-				    // console.log(`child process exited with code ${code}`);
-				    // var sshNodeInstall = childProcess('ssh', [
-				    //   '-o StrictHostKeyChecking=no',
-				    //   '-i',
-				    //   '/home/ubuntu/scaleapp1.pem',
-				    //   sshLocation,
-				    //   './setUpNode.sh'
-				    // ])
-				    // sshNodeInstall.stdout.on('data', (data) => {
-				    //   console.log(`stdout: ${data}`);
-				    // });
+					  sshChmod.on('close', (code) => {
+					    console.log(`child process exited with code ${code}`);
+					    callback(null, "sshChmod")
+					  })
+				  },
+				  sshNodeInstall: function(){
+				  	var sshNodeInstall = childProcess('ssh', [
+				      '-o StrictHostKeyChecking=no',
+				      '-i',
+				      '/home/ubuntu/scaleapp1.pem',
+				      sshLocation,
+				      './setUpNode.sh'
+				    ])
+				    sshNodeInstall.stdout.on('data', (data) => {
+				      console.log(`stdout: ${data}`);
+				    });
 
-				    // sshNodeInstall.stderr.on('data', (data) => {
-				    //   console.log(`stderr: ${data}`);
-				    // });
+				    sshNodeInstall.stderr.on('data', (data) => {
+				      console.log(`stderr: ${data}`);
+				    });
 
-				    // sshNodeInstall.on('close', (code) => {
-  					 //  console.log(`child process exited with code ${code}`);
-				    // });
-				  });
-				})
+				    sshNodeInstall.on('close', (code) => {
+  					  console.log(`child process exited with code ${code}`);
+  					  callback(null, "sshNodeInstall")
+				    });
+				  }
+				},
+				function(err, results) {
+					console.log("finished 3 ssh commands")
+				    // results is now equal to: {one: 1, two: 2}
+				});
 			});  
 	  }      // successful response
 	});
