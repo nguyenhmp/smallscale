@@ -71,7 +71,7 @@ ec2.runInstances(params, function(err, data) {
 				      '-i',
 				      '/home/ubuntu/scaleapp1.pem',
 				      sshLocation,
-				      'chmod -R +x ./shellScripts && ./shellScripts/setUpScript.sh'
+				      'chmod -R +x ./shellScripts exit'
 				    ])
 
 				  sshChmod.stdout.on('data', (data) => {
@@ -83,25 +83,25 @@ ec2.runInstances(params, function(err, data) {
 				  });
 
 				  sshChmod.on('close', (code) => {
-				    // console.log(`child process exited with code ${code}`);
-				    // var sshNodeInstall = childProcess('ssh', [
-				    //   '-o StrictHostKeyChecking=no',
-				    //   '-i',
-				    //   '/home/ubuntu/scaleapp1.pem',
-				    //   sshLocation,
-				    //   ''
-				    // ])
-				    // sshNodeInstall.stdout.on('data', (data) => {
-				    //   console.log(`stdout: ${data}`);
-				    // });
+				    console.log(`child process exited with code ${code}`);
+				    var sshNodeInstall = childProcess('ssh', [
+				      '-o StrictHostKeyChecking=no',
+				      '-i',
+				      '/home/ubuntu/scaleapp1.pem',
+				      sshLocation,
+				      './shellScripts/setUpScript.sh'
+				    ])
+				    sshNodeInstall.stdout.on('data', (data) => {
+				      console.log(`stdout: ${data}`);
+				    });
 
-				    // sshNodeInstall.stderr.on('data', (data) => {
-				    //   console.log(`stderr: ${data}`);
-				    // });
+				    sshNodeInstall.stderr.on('data', (data) => {
+				      console.log(`stderr: ${data}`);
+				    });
 
-				    // sshNodeInstall.on('close', (code) => {
-  					 //  console.log(`child process exited with code ${code}`);
-				    // });
+				    sshNodeInstall.on('close', (code) => {
+  					  console.log(`child process exited with code ${code}`);
+				    });
 				  });
 				})
 			});  
