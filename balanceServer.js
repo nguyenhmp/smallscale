@@ -83,25 +83,25 @@ ec2.runInstances(params, function(err, data) {
 				  });
 
 				  sshChmod.on('close', (code) => {
-				    console.log(`child process exited with code ${code}`);
-				    var sshNodeInstall = childProcess('ssh', [
-				      '-o StrictHostKeyChecking=no',
-				      '-i',
-				      '/home/ubuntu/scaleapp1.pem',
-				      sshLocation,
-				      './setUpNode'
-				    ])
-				    sshNodeInstall.stdout.on('data', (data) => {
-				      console.log(`stdout: ${data}`);
-				    });
+				    // console.log(`child process exited with code ${code}`);
+				    // var sshNodeInstall = childProcess('ssh', [
+				    //   '-o StrictHostKeyChecking=no',
+				    //   '-i',
+				    //   '/home/ubuntu/scaleapp1.pem',
+				    //   sshLocation,
+				    //   './setUpNode.sh'
+				    // ])
+				    // sshNodeInstall.stdout.on('data', (data) => {
+				    //   console.log(`stdout: ${data}`);
+				    // });
 
-				    sshNodeInstall.stderr.on('data', (data) => {
-				      console.log(`stderr: ${data}`);
-				    });
+				    // sshNodeInstall.stderr.on('data', (data) => {
+				    //   console.log(`stderr: ${data}`);
+				    // });
 
-				    sshNodeInstall.on('close', (code) => {
-  					  console.log(`child process exited with code ${code}`);
-				    });
+				    // sshNodeInstall.on('close', (code) => {
+  					 //  console.log(`child process exited with code ${code}`);
+				    // });
 				  });
 				})
 			});  

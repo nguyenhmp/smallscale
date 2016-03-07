@@ -9,4 +9,5 @@ sudo apt-get update -y && sudo apt-get upgrade -y;
 curl -O 'https://nodejs.org/dist/v4.3.1/node-v4.3.1-linux-x64.tar.xz' && tar -xf node-v4.3.1-linux-x64.tar.xz;
 echo "export PATH=/home/ubuntu/node-v4.3.1-linux-x64/bin:$PATH" >> ~/.bashrc;
 source ~/.bashrc;
-exec bash;
+source ~/.profile;
+cd smallscale && npm install;
