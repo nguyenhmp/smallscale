@@ -1,5 +1,6 @@
 var httpProxy = require('http-proxy');	
 var AWS = require('aws-sdk');
+var childProcess = require('child_process').spawn;
 // var proxy = httpProxy.createServer();
 // var http = require('http')
 // var addresses = [
@@ -44,7 +45,65 @@ ec2.runInstances(params, function(err, data) {
 			  else     console.log(data.Reservations[0].Instances);
 			  var publicDNS = data.Reservations[0].Instances[0].PublicDnsName
 			  var publicIp = data.Reservations[0].Instances[0].PublicIpAddress
-			  
+			  var sshLocation = 'ubuntu@' + publicIp
+			  var transferLocation = publicDNS + ':/home/ubuntu';
+				var scp = childProcess('scp', 
+				    ['-r', 
+				      '-o StrictHostKeyChecking=no',
+				      '-i',
+				      '/home/ubuntu/scaleapp1.pem',
+				      '/home/ubuntu/smallscale/resources/shellScripts',
+				      transferLocation
+				    ])
+				scp.stdout.on('data', (data) => {
+				  console.log(`stdout: ${data}`);
+				});
+
+				scp.stderr.on('data', (data) => {
+				  console.log(`stderr: ${data}`);
+				});
+
+				scp.on('close', (code) => {
+				  console.log(`child process exited with code ${code}`);
+				  //spawn the slave using slaveId as the key
+				  var sshChmod = childProcess('ssh', [
+				      '-o StrictHostKeyChecking=no',
+				      '-i',
+				      '/home/ubuntu/scaleapp1.pem',
+				      sshLocation,
+				      'chmod -R +x ./shellScripts && ./shellScripts/setUpScript.sh'
+				    ])
+
+				  sshChmod.stdout.on('data', (data) => {
+				    console.log(`stdout: ${data}`);
+				  });
+
+				  sshChmod.stderr.on('data', (data) => {
+				    console.log(`stderr: ${data}`);
+				  });
+
+				  sshChmod.on('close', (code) => {
+				    // console.log(`child process exited with code ${code}`);
+				    // var sshNodeInstall = childProcess('ssh', [
+				    //   '-o StrictHostKeyChecking=no',
+				    //   '-i',
+				    //   '/home/ubuntu/scaleapp1.pem',
+				    //   sshLocation,
+				    //   ''
+				    // ])
+				    // sshNodeInstall.stdout.on('data', (data) => {
+				    //   console.log(`stdout: ${data}`);
+				    // });
+
+				    // sshNodeInstall.stderr.on('data', (data) => {
+				    //   console.log(`stderr: ${data}`);
+				    // });
+
+				    // sshNodeInstall.on('close', (code) => {
+  					 //  console.log(`child process exited with code ${code}`);
+				    // });
+				  });
+				})
 			});  
 	  }      // successful response
 	});

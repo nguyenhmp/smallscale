@@ -18,23 +18,40 @@ scp.stderr.on('data', (data) => {
 scp.on('close', (code) => {
   console.log(`child process exited with code ${code}`);
   //spawn the slave using slaveId as the key
-  var ssh = childProcess('ssh', [
+  var sshChmod = childProcess('ssh', [
       '-o StrictHostKeyChecking=no',
       '-i',
       '/home/ubuntu/scaleapp1.pem',
       'ubuntu@52.37.3.185',
-      'chmod -R +x ./shellScripts && ./shellScripts/setUpScript.sh'
+      'chmod -R +x ./shellScripts'
     ])
 
-  ssh.stdout.on('data', (data) => {
+  sshChmod.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
   });
 
-  ssh.stderr.on('data', (data) => {
+  sshChmod.stderr.on('data', (data) => {
     console.log(`stderr: ${data}`);
   });
 
-  ssh.on('close', (code) => {
+  sshChmod.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
+    var sshNodeInstall = childProcess('ssh', [
+      '-o StrictHostKeyChecking=no',
+      '-i',
+      '/home/ubuntu/scaleapp1.pem',
+      'ubuntu@52.37.3.185',
+      './shellScripts/setUpScript.sh'
+    ])
+    sshNodeInstall.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+    });
+
+    sshNodeInstall.stderr.on('data', (data) => {
+      console.log(`stderr: ${data}`);
+    });
+
+    sshNodeInstall.on('close', (code) => {
+    });
   });
-});
+})
