@@ -1,6 +1,7 @@
 var httpProxy = require('http-proxy');	
 var AWS = require('aws-sdk');
 var childProcess = require('child_process').spawn;
+var async = require('async');
 // var proxy = httpProxy.createServer();
 // var http = require('http')
 // var addresses = [
