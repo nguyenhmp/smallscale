@@ -18,12 +18,12 @@ var childProcess = require('child_process').spawn;
 // scp.on('close', (code) => {
   // console.log(`child process exited with code ${code}`);
   //spawn the slave using slaveId as the key
-  var sshChmod = childProcess('ssh', [
-      '-o StrictHostKeyChecking=no',
-      '-i',
-      '/home/ubuntu/scaleapp1.pem',
-      'ubuntu@52.25.161.84',
-      'screen -dm bash /home/ubuntu/shellScripts/screenNodeScript.sh'
+    var sshChmod = childProcess('ssh', [
+        '-o StrictHostKeyChecking=no',
+        '-i',
+        '/home/ubuntu/scaleapp1.pem',
+        'ubuntu@52.25.161.84',
+        'screen -dm bash /home/ubuntu/shellScripts/screenNodeScript.sh'
     ])
 
   sshChmod.stdout.on('data', (data) => {
@@ -55,3 +55,5 @@ var childProcess = require('child_process').spawn;
     // });
   });
 // })
+
+ssh -o StrictHostKeyChecking=no -i /home/ubuntu/scaleapp1.pem ubuntu@52.25.161.84 ./shellScripts/screenNodeScript.sh
