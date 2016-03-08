@@ -16,7 +16,7 @@ var childProcess = require('child_process').spawn;
 // });
 
 // scp.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
+  // console.log(`child process exited with code ${code}`);
   //spawn the slave using slaveId as the key
   var sshChmod = childProcess('ssh', [
       '-o StrictHostKeyChecking=no',
