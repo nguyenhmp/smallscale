@@ -10,4 +10,3 @@ curl -O 'https://nodejs.org/dist/v4.3.1/node-v4.3.1-linux-x64.tar.xz' && tar -xf
 echo "export PATH=/home/ubuntu/node-v4.3.1-linux-x64/bin:$PATH" >> ~/.bashrc;
 source ~/.bashrc;
 cd smallscale && /home/ubuntu/node-v4.3.1-linux-x64/bin/npm install;
-screen -dm bash /home/ubuntu/shellScripts/screenNodeScript.sh;

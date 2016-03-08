@@ -84,7 +84,27 @@ ec2.runInstances(params, function(err, data) {
 
 				  sshChmod.on('close', (code) => {
 				    console.log(`child process exited with code ${code}`);
-				  });
+				    
+				    var sshScreen = childProcess('ssh', [
+				      '-o StrictHostKeyChecking=no',
+				      '-i',
+				      '/home/ubuntu/scaleapp1.pem',
+				      sshLocation,
+				      'screen -dm bash /home/ubuntu/shellScripts/screenNodeScript.sh'
+				    ])
+
+					  sshScreen.stdout.on('data', (data) => {
+					    console.log(`stdout: ${data}`);
+					  });
+
+					  sshScreen.stderr.on('data', (data) => {
+					    console.log(`stderr: ${data}`);
+					  });
+
+					  sshScreen.on('close', (code) => {
+					    console.log(`child process exited with code ${code}`);
+					  })
+					});
 				})
 			});  
 	  }      // successful response
