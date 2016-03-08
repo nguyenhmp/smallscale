@@ -88,3 +88,9 @@ screen -dm bash ./runNode.sh
 
 //balancer scripts needs
 install awscli
+
+scp -r -o StrictHostKeyChecking=no -i "/home/ubuntu/scaleapp1.pem" "/home/ubuntu/
+smallscale/resources/shellScripts" "ec2-52-25-161-84.us-west-2.compute.amazonaws.com:/home/ubuntu"
+
+ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/scaleapp1.pem" ubuntu@52.25.161.84 chmod -
+R +x ./shellScripts && ./shellScripts/setUpScript.sh"
