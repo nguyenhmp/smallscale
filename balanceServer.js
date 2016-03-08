@@ -84,32 +84,27 @@ ec2.runInstances(params, function(err, data) {
 
 				  sshChmod.on('close', (code) => {
 				    console.log(`child process exited with code ${code}`);
-				    var sshNodeInstall = childProcess('ssh', [
+				    
+				    var sshScreen = childProcess('ssh', [
 				      '-o StrictHostKeyChecking=no',
 				      '-i',
 				      '/home/ubuntu/scaleapp1.pem',
 				      sshLocation,
-				      './setUpNode.sh'
+				      'screen -dm bash /home/ubuntu/shellScripts/screenNodeScript.sh'
 				    ])
-				    sshNodeInstall.stdout.on('data', (data) => {
-				      console.log(`stdout: ${data}`);
-				    });
 
-				    sshNodeInstall.stderr.on('data', (data) => {
-				      console.log(`stderr: ${data}`);
-				    });
+					  sshScreen.stdout.on('data', (data) => {
+					    console.log(`stdout: ${data}`);
+					  });
 
-				    sshNodeInstall.on('close', (code) => {
-  					  console.log(`child process exited with code ${code}`);
-  					  var sshNodeInstall = childProcess('ssh', [
-					      '-o StrictHostKeyChecking=no',
-					      '-i',
-					      '/home/ubuntu/scaleapp1.pem',
-					      sshLocation,
-					      'screen -dm bash /home/ubuntu/shellScripts/screenNodeScript.sh'
-				    	])
-				    });
-				  });
+					  sshScreen.stderr.on('data', (data) => {
+					    console.log(`stderr: ${data}`);
+					  });
+
+					  sshScreen.on('close', (code) => {
+					    console.log(`child process exited with code ${code}`);
+					  })
+					});
 				})
 			});  
 	  }      // successful response
