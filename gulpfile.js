@@ -4,10 +4,10 @@ var minifyCSS = require('gulp-minify-css');
 var rename = require('gulp-rename');
 
 // create task
-gulp.task('compileAndMinifyCss', function(){
+gulp.task('compileAndMinifyCss', ['clean'] function(){
   gulp.src('./public/css/**/*.css')
-  .pipe(concat('style.min.css'))
   .pipe(minifyCSS())
+  .pipe(concat('style.min.css'))
   .pipe(gulp.dest('public/css/compileCss'))
 })
 
